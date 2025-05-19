@@ -4,15 +4,14 @@ using UnityEngine.InputSystem;
 public class SimplePLayer : MonoBehaviour
 {
     public  int moedas;
-    
     public CommandManager MyCommandManager;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         MyCommandManager = new CommandManager();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         if (Keyboard.current.wKey.wasPressedThisFrame)
@@ -32,8 +31,13 @@ public class SimplePLayer : MonoBehaviour
     {
         if (other.CompareTag("Coin"))
         {
-            moedas++;
-            Destroy(other.gameObject);
+           MyCommandManager.AddCommand(new GetCoin(other.gameObject, this));
+           MyCommandManager.DoCommand();
         }    
+    }
+
+    public void UndoLastCommand()
+    {
+        MyCommandManager.UndoCommand();
     }
 }

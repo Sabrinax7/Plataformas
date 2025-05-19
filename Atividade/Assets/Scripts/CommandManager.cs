@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,5 +19,12 @@ public class CommandManager
     public void DoCommand()
     {
         commands[^1].Do();
+    }
+
+    public void UndoCommand()
+    {
+        ICommand command = commands[^1];
+        commands.RemoveAt(commands.Count - 1);
+        command.Undo();
     }
 }
