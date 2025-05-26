@@ -30,4 +30,21 @@ public class ComandoManager
             cmd.Execute();
             yield return new WaitForSeconds(1f);
         }
-        onFinish?.Invoke
+        onFinish?.Invoke();
+    }
+
+    public void SkipReplay(System.Action onFinish)
+    {
+        foreach (var cmd in replayList)
+        {
+            cmd.Execute();
+        }
+        onFinish?.Invoke();
+    }
+
+    public void Reset()
+    {
+        history.Clear();
+        replayList.Clear();
+    }
+}

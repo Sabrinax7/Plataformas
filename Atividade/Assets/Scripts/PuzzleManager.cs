@@ -7,15 +7,15 @@ public class PuzzleManager : MonoBehaviour
 {
     public static PuzzleManager Instance;
 
-    public Transform grid; // GridLayoutGroup
-    public GameObject pecaPrefab;
+    public Transform grid;
+    public GameObject piecePrefab;
     public Sprite[] slicedSprites;
 
     public GameObject victoryPanel;
     public Button undoButton, replayButton, cancelReplayButton, restartButton;
 
     private Puzzle selected;
-    private List<Puzzle> pecas = new List<Puzzle>();
+    private List<Puzzle> pieces = new List<Puzzle>();
     private ComandoManager invoker = new ComandoManager();
 
     private void Awake()
@@ -38,26 +38,26 @@ public class PuzzleManager : MonoBehaviour
     {
         for (int i = 0; i < 16; i++)
         {
-            GameObject obj = Instantiate(pecaPrefab, grid);
+            GameObject obj = Instantiate(piecePrefab, grid);
             Puzzle piece = obj.GetComponent<Puzzle>();
             piece.correctIndex = i;
             piece.currentIndex = i;
             obj.GetComponent<Image>().sprite = slicedSprites[i];
-            pecas.Add(piece);
+            pieces.Add(piece);
         }
     }
 
     void Shuffle()
     {
-        for (int i = 0; i < pecas.Count; i++)
+        for (int i = 0; i < pieces.Count; i++)
         {
-            int j = Random.Range(0, pecas.Count);
-            Puzzle.Swap(pecas[i], pecas[j]);
+            int j = Random.Range(0, pieces.Count);
+            Puzzle.Swap(pieces[i], pieces[j]);
         }
         invoker.Reset();
     }
 
-    public void OnPecasClicked(Puzzle clicked)
+    public void OnPieceClicked(Puzzle clicked)
     {
         if (selected == null)
         {
@@ -77,9 +77,9 @@ public class PuzzleManager : MonoBehaviour
 
     void CheckVictory()
     {
-        foreach (var peca in pecas)
+        foreach (var piece in pieces)
         {
-            if (!peca.IsCorrect()) return;
+            if (!piece.IsCorrect()) return;
         }
         OnVictory();
     }
@@ -94,7 +94,7 @@ public class PuzzleManager : MonoBehaviour
         foreach (Transform child in grid)
             Destroy(child.gameObject);
 
-        pecas.Clear();
+        pieces.Clear();
         victoryPanel.SetActive(false);
         SetupPuzzle();
         Shuffle();

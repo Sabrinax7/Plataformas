@@ -10,7 +10,7 @@ public class Puzzle : MonoBehaviour
     {
         GetComponent<Button>().onClick.AddListener(() =>
         {
-            PuzzleManager.Instance.OnPecasClicked(this);
+            PuzzleManager.Instance.OnPieceClicked(this);
         });
     }
 
